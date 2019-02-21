@@ -20,7 +20,6 @@ class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffC
     }
 
     class PhotoViewHolder(private val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(photo: Photo) {
             binding.apply {
                 date.text = photo.createdAt
@@ -35,13 +34,11 @@ class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffC
 
     companion object {
         val photoDiffCallback = object : DiffUtil.ItemCallback<Photo>() {
-            override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-                return oldItem.id == newItem.id
-            }
+            override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean =
+                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean =
+                oldItem == newItem
         }
     }
 }

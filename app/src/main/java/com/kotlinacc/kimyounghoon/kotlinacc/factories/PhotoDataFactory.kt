@@ -13,20 +13,15 @@ class PhotoDataFactory(private val compositeDisposable: CompositeDisposable) : D
     private var photoDataSource: PhotoDataSource? = null
 
     override fun create(): DataSource<Long, Photo> {
-        photoDataSource = PhotoDataSource(compositeDisposable, progressLiveData,refreshLiveData)
+        photoDataSource = PhotoDataSource(compositeDisposable, progressLiveData, refreshLiveData)
         mutableLiveData.postValue(photoDataSource)
         return photoDataSource as PhotoDataSource
     }
 
-    fun getMutableLiveData(): MutableLiveData<PhotoDataSource> {
-        return mutableLiveData
-    }
+    fun getMutableLiveData(): MutableLiveData<PhotoDataSource> = mutableLiveData
 
-    fun getProgressLiveData(): MutableLiveData<Boolean> {
-        return progressLiveData
-    }
+    fun getProgressLiveData(): MutableLiveData<Boolean> = progressLiveData
 
-    fun getRefreshLiveData(): MutableLiveData<Void> {
-        return refreshLiveData
-    }
+    fun getRefreshLiveData(): MutableLiveData<Void> = refreshLiveData
+
 }

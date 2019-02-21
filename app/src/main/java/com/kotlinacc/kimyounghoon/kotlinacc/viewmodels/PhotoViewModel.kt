@@ -6,16 +6,16 @@ import android.arch.lifecycle.ViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import com.kotlinacc.kimyounghoon.kotlinacc.factories.PhotoDataFactory
+import com.kotlinacc.kimyounghoon.kotlinacc.interfaces.PhotoViewModelImpl
 import com.kotlinacc.kimyounghoon.kotlinacc.models.Photo
 import io.reactivex.disposables.CompositeDisposable
 
 
-class PhotoViewModel : ViewModel() {
+class PhotoViewModel : ViewModel(), PhotoViewModelImpl {
 
     private var compositeDisposable = CompositeDisposable()
     private val photoDataFactory = PhotoDataFactory(compositeDisposable)
-    var photoLiveData: LiveData<PagedList<Photo>>? = null
-        private set
+    private var photoLiveData: LiveData<PagedList<Photo>>? = null
 
     init {
         init()
@@ -37,15 +37,14 @@ class PhotoViewModel : ViewModel() {
         compositeDisposable.dispose()
     }
 
-    fun refresh() {
+    override fun refresh() {
         photoDataFactory.getMutableLiveData().value?.invalidate()
     }
 
-    fun getProgressLiveData(): MutableLiveData<Boolean> {
-        return photoDataFactory.getProgressLiveData()
-    }
+    override fun getProgressLiveData(): MutableLiveData<Boolean> = photoDataFactory.getProgressLiveData()
 
-    fun getRefreshLiveData(): MutableLiveData<Void>{
-        return photoDataFactory.getRefreshLiveData()
-    }
+    override fun getRefreshLiveData(): MutableLiveData<Void> = photoDataFactory.getRefreshLiveData()
+
+    override fun getPhotoLiveData(): LiveData<PagedList<Photo>>? = photoLiveData
+
 }

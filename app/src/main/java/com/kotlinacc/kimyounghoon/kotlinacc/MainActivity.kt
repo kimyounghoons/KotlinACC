@@ -2,28 +2,29 @@ package com.kotlinacc.kimyounghoon.kotlinacc
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import com.kotlinacc.kimyounghoon.kotlinacc.activities.BaseAppCompatActivity
 import com.kotlinacc.kimyounghoon.kotlinacc.adapters.PhotoAdapter
 import com.kotlinacc.kimyounghoon.kotlinacc.databinding.ActivityMainBinding
 import com.kotlinacc.kimyounghoon.kotlinacc.extensions.setupProgressDialog
+import com.kotlinacc.kimyounghoon.kotlinacc.interfaces.PhotoViewModelImpl
 import com.kotlinacc.kimyounghoon.kotlinacc.viewmodels.PhotoViewModel
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var photoViewModel: PhotoViewModel
+class MainActivity : BaseAppCompatActivity<ActivityMainBinding>() {
+
+    private lateinit var photoViewModelImpl: PhotoViewModelImpl
     private lateinit var photoAdapter: PhotoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        photoViewModel = ViewModelProviders.of(this).get(PhotoViewModel::class.java)
+        photoViewModelImpl = ViewModelProviders.of(this).get(PhotoViewModel::class.java)
         initAdapter()
-        binding.swipeRefreshLayout.setOnRefreshListener { photoViewModel.refresh() }
+        setRefreshListener()
         observeLiveData()
     }
+
+    override fun getLayoutId(): Int = R.layout.activity_main
 
     private fun initAdapter() {
         photoAdapter = PhotoAdapter()
@@ -34,11 +35,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeLiveData() {
-        photoViewModel.apply {
-            setupProgressDialog(this@MainActivity, photoViewModel.getProgressLiveData())
+    private fun setRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener { photoViewModelImpl.refresh() }
+    }
 
-            photoLiveData?.observe(this@MainActivity, Observer {
+    private fun observeLiveData() {
+        photoViewModelImpl.apply {
+            setupProgressDialog(this@MainActivity, photoViewModelImpl.getProgressLiveData())
+
+            getPhotoLiveData()?.observe(this@MainActivity, Observer {
                 photoAdapter.submitList(it)
             })
 
