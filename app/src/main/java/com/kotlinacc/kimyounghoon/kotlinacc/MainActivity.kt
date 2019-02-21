@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         photoViewModel = ViewModelProviders.of(this).get(PhotoViewModel::class.java)
         initAdapter()
-        setupProgressDialog(this, photoViewModel.getProgressLiveData())
+        binding.swipeRefreshLayout.setOnRefreshListener { photoViewModel.refresh() }
+        observeLiveData()
     }
 
     private fun initAdapter() {
@@ -31,14 +32,21 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = photoAdapter
         }
+    }
 
-        binding.swipeRefreshLayout.setOnRefreshListener { photoViewModel.refresh() }
+    private fun observeLiveData() {
+        photoViewModel.apply {
+            setupProgressDialog(this@MainActivity, photoViewModel.getProgressLiveData())
 
-        photoViewModel.photoLiveData?.observe(this, Observer {
-            photoAdapter.submitList(it)
-            if (binding.swipeRefreshLayout.isRefreshing) {
-                binding.swipeRefreshLayout.isRefreshing = false
-            }
-        })
+            photoLiveData?.observe(this@MainActivity, Observer {
+                photoAdapter.submitList(it)
+            })
+
+            getRefreshLiveData().observe(this@MainActivity, Observer {
+                if (binding.swipeRefreshLayout.isRefreshing) {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
+            })
+        }
     }
 }

@@ -12,44 +12,49 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
-class PhotoDataSource(private val compositeDisposable: CompositeDisposable, private val progressLiveData: MutableLiveData<Boolean>) : PageKeyedDataSource<Long, Photo>() {
+class PhotoDataSource(
+    private val compositeDisposable: CompositeDisposable,
+    private val progressLiveData: MutableLiveData<Boolean>,
+    private val refreshLiveData: MutableLiveData<Void>
+) : PageKeyedDataSource<Long, Photo>() {
     private val TAG = PhotoDataSource::class.java.simpleName
     private val photosApi: PhotoApi = RetrofitClient.getInstance().create(PhotoApi::class.java)
 
     override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, Photo>) {
+        hideRefreshing()
         showProgress()
         compositeDisposable.add(
-                photosApi.getPhotos(Constants.DEFAULT_PAGE, Constants.PER_PAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            callback.onResult(it, Constants.DEFAULT_PAGE, Constants.DEFAULT_PAGE + 1)
-                            hideProgress()
-                        }, {
-                            Log.d(TAG, it.message)
-                            hideProgress()
-                        })
+            photosApi.getPhotos(Constants.DEFAULT_PAGE, Constants.PER_PAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    callback.onResult(it, Constants.DEFAULT_PAGE, Constants.DEFAULT_PAGE + 1)
+                    hideProgress()
+                }, {
+                    Log.d(TAG, it.message)
+                    hideProgress()
+                })
         )
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Photo>) {
         showProgress()
         compositeDisposable.add(
-                photosApi.getPhotos(params.key, Constants.PER_PAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            val nextKey: Long? = if (it.isEmpty()) {
-                                null
-                            } else {
-                                params.key + 1
-                            }
-                            callback.onResult(it, nextKey)
-                            hideProgress()
-                        }, {
-                            Log.d(TAG, it.message)
-                            hideProgress()
-                        })
+            photosApi.getPhotos(params.key, Constants.PER_PAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val nextKey: Long? = if (it.isEmpty()) {
+                        null
+                    } else {
+                        params.key + 1
+                    }
+                    callback.onResult(it, nextKey)
+                    hideProgress()
+                }, {
+                    Log.d(TAG, it.message)
+                    hideProgress()
+                })
         )
     }
 
@@ -65,4 +70,7 @@ class PhotoDataSource(private val compositeDisposable: CompositeDisposable, priv
         progressLiveData.postValue(false)
     }
 
+    private fun hideRefreshing() {
+        refreshLiveData.postValue(null)
+    }
 }

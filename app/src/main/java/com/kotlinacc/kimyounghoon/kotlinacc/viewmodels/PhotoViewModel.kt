@@ -22,7 +22,6 @@ class PhotoViewModel : ViewModel() {
     }
 
     private fun init() {
-
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(10)
@@ -42,7 +41,11 @@ class PhotoViewModel : ViewModel() {
         photoDataFactory.getMutableLiveData().value?.invalidate()
     }
 
-    fun getProgressLiveData() : MutableLiveData<Boolean>{
+    fun getProgressLiveData(): MutableLiveData<Boolean> {
         return photoDataFactory.getProgressLiveData()
+    }
+
+    fun getRefreshLiveData(): MutableLiveData<Void>{
+        return photoDataFactory.getRefreshLiveData()
     }
 }

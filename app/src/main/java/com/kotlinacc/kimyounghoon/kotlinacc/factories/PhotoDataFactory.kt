@@ -9,10 +9,11 @@ import io.reactivex.disposables.CompositeDisposable
 class PhotoDataFactory(private val compositeDisposable: CompositeDisposable) : DataSource.Factory<Long, Photo>() {
     private var mutableLiveData: MutableLiveData<PhotoDataSource> = MutableLiveData()
     private var progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private var refreshLiveData: MutableLiveData<Void> = MutableLiveData()
     private var photoDataSource: PhotoDataSource? = null
 
     override fun create(): DataSource<Long, Photo> {
-        photoDataSource = PhotoDataSource(compositeDisposable, progressLiveData)
+        photoDataSource = PhotoDataSource(compositeDisposable, progressLiveData,refreshLiveData)
         mutableLiveData.postValue(photoDataSource)
         return photoDataSource as PhotoDataSource
     }
@@ -23,5 +24,9 @@ class PhotoDataFactory(private val compositeDisposable: CompositeDisposable) : D
 
     fun getProgressLiveData(): MutableLiveData<Boolean> {
         return progressLiveData
+    }
+
+    fun getRefreshLiveData(): MutableLiveData<Void> {
+        return refreshLiveData
     }
 }
