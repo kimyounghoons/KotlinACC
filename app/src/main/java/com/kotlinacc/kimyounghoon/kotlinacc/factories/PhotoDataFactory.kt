@@ -2,8 +2,8 @@ package com.kotlinacc.kimyounghoon.kotlinacc.factories
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.DataSource
-import com.kotlinacc.kimyounghoon.kotlinacc.NetworkState
 import com.kotlinacc.kimyounghoon.kotlinacc.datasources.PhotoDataSource
+import com.kotlinacc.kimyounghoon.kotlinacc.models.NetworkState
 import com.kotlinacc.kimyounghoon.kotlinacc.models.Photo
 import io.reactivex.disposables.CompositeDisposable
 

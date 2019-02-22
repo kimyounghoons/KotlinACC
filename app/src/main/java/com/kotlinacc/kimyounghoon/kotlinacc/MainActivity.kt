@@ -10,12 +10,16 @@ import com.kotlinacc.kimyounghoon.kotlinacc.adapters.PhotoAdapter
 import com.kotlinacc.kimyounghoon.kotlinacc.databinding.ActivityMainBinding
 import com.kotlinacc.kimyounghoon.kotlinacc.extensions.setNetworkErrorDialog
 import com.kotlinacc.kimyounghoon.kotlinacc.interfaces.PhotoViewModelImpl
+import com.kotlinacc.kimyounghoon.kotlinacc.models.NetworkState
 import com.kotlinacc.kimyounghoon.kotlinacc.viewmodels.PhotoViewModel
 
 class MainActivity : BaseAppCompatActivity<ActivityMainBinding>() {
 
     private lateinit var photoViewModelImpl: PhotoViewModelImpl
     private lateinit var photoAdapter: PhotoAdapter
+
+    override fun getLayoutId(): Int = R.layout.activity_main
+    override fun getTitleId(): Int = R.string.activity_main_title
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +28,6 @@ class MainActivity : BaseAppCompatActivity<ActivityMainBinding>() {
         setRefreshListener()
         observeLiveData()
     }
-
-    override fun getLayoutId(): Int = R.layout.activity_main
 
     private fun initAdapter() {
         photoAdapter = PhotoAdapter()

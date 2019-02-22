@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KotlinACC</string>
+    <string name="activity_main_title">Android Architecture Components</string>
     <string name="confirm">확인</string>
 </resources>

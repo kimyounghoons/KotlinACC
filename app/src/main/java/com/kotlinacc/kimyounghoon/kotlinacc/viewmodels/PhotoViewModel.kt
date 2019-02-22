@@ -5,9 +5,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import com.kotlinacc.kimyounghoon.kotlinacc.NetworkState
 import com.kotlinacc.kimyounghoon.kotlinacc.factories.PhotoDataFactory
 import com.kotlinacc.kimyounghoon.kotlinacc.interfaces.PhotoViewModelImpl
+import com.kotlinacc.kimyounghoon.kotlinacc.models.NetworkState
 import com.kotlinacc.kimyounghoon.kotlinacc.models.Photo
 import io.reactivex.disposables.CompositeDisposable
 
@@ -23,13 +23,13 @@ class PhotoViewModel : ViewModel(), PhotoViewModelImpl {
 
     private fun init() {
         val pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(10)
-            .setPageSize(10)
-            .build()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
+                .build()
 
         photoLiveData = LivePagedListBuilder(photoDataFactory, pagedListConfig)
-            .build()
+                .build()
     }
 
     override fun onCleared() {

@@ -11,8 +11,11 @@ abstract class BaseAppCompatActivity<T : ViewDataBinding> : AppCompatActivity() 
 
     abstract fun getLayoutId(): Int
 
+    abstract fun getTitleId(): Int
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTitle(getTitleId())
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 

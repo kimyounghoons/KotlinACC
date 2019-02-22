@@ -5,13 +5,14 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
+import com.kotlinacc.kimyounghoon.kotlinacc.GlideApp
 import com.kotlinacc.kimyounghoon.kotlinacc.databinding.ItemPhotoBinding
 import com.kotlinacc.kimyounghoon.kotlinacc.models.Photo
 
+
 class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffCallback) {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        PhotoViewHolder(ItemPhotoBinding.inflate(LayoutInflater.from(viewGroup.context)))
+            PhotoViewHolder(ItemPhotoBinding.inflate(LayoutInflater.from(viewGroup.context)))
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.apply {
@@ -21,13 +22,22 @@ class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffC
 
     class PhotoViewHolder(private val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo) {
-            binding.apply {
-                date.text = photo.createdAt
-                description.text = photo.description
+            binding.userContainer.apply {
                 userName.text = photo.user.username
-                Glide.with(thumbnail)
-                    .load(photo.urls.thumb)
-                    .into(thumbnail)
+                date.text = photo.createdAt
+
+                GlideApp.with(userImage)
+                        .load(photo.user.profileImage.medium)
+                        .override(100, 100)
+                        .circleCrop()
+                        .into(userImage)
+            }
+
+            binding.apply {
+                GlideApp.with(thumbnail)
+                        .load(photo.urls.full)
+                        .override(200, 300)
+                        .into(thumbnail)
             }
         }
     }
@@ -35,10 +45,10 @@ class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffC
     companion object {
         val photoDiffCallback = object : DiffUtil.ItemCallback<Photo>() {
             override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean =
-                oldItem.id == newItem.id
+                    oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean =
-                oldItem == newItem
+                    oldItem == newItem
         }
     }
 }
