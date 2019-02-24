@@ -5,7 +5,7 @@ https://unsplash.com/developers
 
 Kotlin과 Android Architecture Components 사용해서 리스트 뿌려주기(오픈 API 사용)
 
-# 사용기술 및 디자인 패턴
+## 사용기술 및 디자인 패턴
 
   1. Kotlin
   2. MVVM 패턴 
