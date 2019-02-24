@@ -1,11 +1,11 @@
-package com.kotlinacc.kimyounghoon.kotlinacc
+package com.kotlinacc.kimyounghoon.kotlinacc.activities
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.kotlinacc.kimyounghoon.kotlinacc.activities.BaseAppCompatActivity
+import com.kotlinacc.kimyounghoon.kotlinacc.R
 import com.kotlinacc.kimyounghoon.kotlinacc.adapters.PhotoAdapter
 import com.kotlinacc.kimyounghoon.kotlinacc.databinding.ActivityMainBinding
 import com.kotlinacc.kimyounghoon.kotlinacc.extensions.setNetworkErrorDialog
@@ -43,9 +43,9 @@ class MainActivity : BaseAppCompatActivity<ActivityMainBinding>() {
     }
 
     private fun observeLiveData() {
-        photoViewModelImpl.apply {
-            setNetworkErrorDialog(this@MainActivity, photoViewModelImpl.getNetworkStateLiveData())
+        binding.root.setNetworkErrorDialog(this@MainActivity, photoViewModelImpl.getNetworkStateLiveData())
 
+        photoViewModelImpl.apply {
             photoViewModelImpl.getNetworkStateLiveData().observe(this@MainActivity, Observer {
                 it?.apply {
                     if (this == NetworkState.LOADING) {

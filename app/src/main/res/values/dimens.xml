@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--item_user-->
     <dimen name="margin_start_of_user_image">10dp</dimen>
-    <dimen name="match_constraint">0dp</dimen>
-    <dimen name="thumbnail_height">300dp</dimen>
-    <dimen name="photo_divider">3dp</dimen>
     <dimen name="user_image_size">50dp</dimen>
     <dimen name="guideline_size">1dp</dimen>
+    <dimen name="item_user_height">70dp</dimen>
     <dimen name="vertical_user_divider_size">0.2</dimen>
     <dimen name="username_text_size">14sp</dimen>
     <dimen name="date_text_size">14sp</dimen>
+
+    <!--item_photo-->
+    <dimen name="match_constraint">0dp</dimen>
+    <dimen name="thumbnail_height">300dp</dimen>
+    <dimen name="photo_divider">3dp</dimen>
+
 </resources>

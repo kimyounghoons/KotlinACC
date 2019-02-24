@@ -8,18 +8,18 @@ enum class Status {
 
 @Suppress("DataClassPrivateConstructor")
 data class NetworkState private constructor(
-        val status: Status,
-        val msg: String? = null
+    val status: Status,
+    val msg: String? = null
 ) {
     companion object {
         val LOADED =
-                NetworkState(Status.LOADED)
+            NetworkState(Status.LOADED)
         val LOADING =
-                NetworkState(Status.LOADING)
+            NetworkState(Status.LOADING)
 
         fun error(msg: String?) = NetworkState(
-                Status.FAILED,
-                msg
+            Status.FAILED,
+            msg
         )
     }
 }

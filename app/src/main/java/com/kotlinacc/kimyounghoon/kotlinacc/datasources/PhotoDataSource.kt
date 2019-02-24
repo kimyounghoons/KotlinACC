@@ -13,9 +13,9 @@ import io.reactivex.schedulers.Schedulers
 
 
 class PhotoDataSource(
-        private val compositeDisposable: CompositeDisposable,
-        private val refreshLiveData: MutableLiveData<Void>,
-        private val networkStateLiveData: MutableLiveData<NetworkState>
+    private val compositeDisposable: CompositeDisposable,
+    private val refreshLiveData: MutableLiveData<Void>,
+    private val networkStateLiveData: MutableLiveData<NetworkState>
 ) : PageKeyedDataSource<Long, Photo>() {
     private val photosApi: PhotoApi = RetrofitClient.getInstance().create(PhotoApi::class.java)
 
@@ -23,35 +23,35 @@ class PhotoDataSource(
         hideRefreshing()
         showProgress()
         compositeDisposable.add(
-                photosApi.getPhotos(Constants.DEFAULT_PAGE, Constants.PER_PAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            callback.onResult(it, Constants.DEFAULT_PAGE, Constants.DEFAULT_PAGE + 1)
-                            hideProgress()
-                        }, {
-                            onFailedRequest(it.message)
-                        })
+            photosApi.getPhotos(Constants.DEFAULT_PAGE, Constants.PER_PAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    callback.onResult(it, Constants.DEFAULT_PAGE, Constants.DEFAULT_PAGE + 1)
+                    hideProgress()
+                }, {
+                    onFailedRequest(it.message)
+                })
         )
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Photo>) {
         showProgress()
         compositeDisposable.add(
-                photosApi.getPhotos(params.key, Constants.PER_PAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            val nextKey: Long? = if (it.isEmpty()) {
-                                null
-                            } else {
-                                params.key + 1
-                            }
-                            callback.onResult(it, nextKey)
-                            hideProgress()
-                        }, {
-                            onFailedRequest(it.message)
-                        })
+            photosApi.getPhotos(params.key, Constants.PER_PAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val nextKey: Long? = if (it.isEmpty()) {
+                        null
+                    } else {
+                        params.key + 1
+                    }
+                    callback.onResult(it, nextKey)
+                    hideProgress()
+                }, {
+                    onFailedRequest(it.message)
+                })
         )
     }
 

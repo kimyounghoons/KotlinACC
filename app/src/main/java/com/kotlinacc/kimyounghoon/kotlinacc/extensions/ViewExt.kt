@@ -4,17 +4,17 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.kotlinacc.kimyounghoon.kotlinacc.R
 import com.kotlinacc.kimyounghoon.kotlinacc.models.NetworkState
 
-fun AppCompatActivity.setNetworkErrorDialog(
+fun View.setNetworkErrorDialog(
         lifecycleOwner: LifecycleOwner,
-        toastLiveEvent: MutableLiveData<NetworkState>
+        networkStateLiveData: MutableLiveData<NetworkState>
 ) {
-    toastLiveEvent.observe(lifecycleOwner, Observer {
+    networkStateLiveData.observe(lifecycleOwner, Observer {
         it?.msg?.apply {
-            AlertDialog.Builder(this@setNetworkErrorDialog)
+            AlertDialog.Builder(context)
                     .setMessage(this)
                     .setPositiveButton(R.string.confirm) { dialogInterface, _ ->
                         dialogInterface.dismiss()

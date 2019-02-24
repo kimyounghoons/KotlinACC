@@ -5,7 +5,6 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.kotlinacc.kimyounghoon.kotlinacc.GlideApp
 import com.kotlinacc.kimyounghoon.kotlinacc.databinding.ItemPhotoBinding
 import com.kotlinacc.kimyounghoon.kotlinacc.models.Photo
 
@@ -22,23 +21,7 @@ class PhotoAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(photoDiffC
 
     class PhotoViewHolder(private val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo) {
-            binding.userContainer.apply {
-                userName.text = photo.user.username
-                date.text = photo.createdAt
-
-                GlideApp.with(userImage)
-                        .load(photo.user.profileImage.medium)
-                        .override(100, 100)
-                        .circleCrop()
-                        .into(userImage)
-            }
-
-            binding.apply {
-                GlideApp.with(thumbnail)
-                        .load(photo.urls.full)
-                        .override(200, 300)
-                        .into(thumbnail)
-            }
+            binding.photo = photo
         }
     }
 

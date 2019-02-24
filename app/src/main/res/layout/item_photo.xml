@@ -2,13 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="photo"
+            type="com.kotlinacc.kimyounghoon.kotlinacc.models.Photo" />
+    </data>
+
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
             android:id="@+id/user_container"
-            layout="@layout/item_user" />
+            layout="@layout/item_user"
+            app:photo="@{photo}"/>
 
         <ImageView
             android:id="@+id/thumbnail"
@@ -18,7 +26,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_container" />
+            app:layout_constraintTop_toBottomOf="@id/user_container"
+            app:photoImageUrl="@{photo.urls.full}"
+            />
 
         <View
             android:layout_width="match_parent"
@@ -29,4 +39,3 @@
     </android.support.constraint.ConstraintLayout>
 
 </layout>
-

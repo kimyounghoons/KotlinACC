@@ -14,6 +14,6 @@ class PhotoGlideModule : AppGlideModule() {
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         val bitmapPoolSizeBytes = Constants.THIRTY_MB
         builder.setBitmapPool(LruBitmapPool(bitmapPoolSizeBytes.toLong()))
-                .setDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_ARGB_8888))
+            .setDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_ARGB_8888))
     }
 }

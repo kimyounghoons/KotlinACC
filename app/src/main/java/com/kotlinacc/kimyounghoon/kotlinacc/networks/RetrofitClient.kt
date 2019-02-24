@@ -11,17 +11,17 @@ class RetrofitClient {
     companion object {
         fun getInstance(): Retrofit {
             return Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(getOkHttpClient())
-                    .build()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getOkHttpClient())
+                .build()
         }
 
         private fun getOkHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
-                    .addInterceptor(getHeaderInterceptor())
-                    .build()
+                .addInterceptor(getHeaderInterceptor())
+                .build()
         }
 
         private fun getHeaderInterceptor(): Interceptor {
